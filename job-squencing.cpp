@@ -1,14 +1,16 @@
 #include <iostream>
 #include <algorithm>
+#include <string>
 using namespace std;
 
 struct Job
 {
-    char id;
+    string id;
     int deadline;
     int profit;
 };
 
+// Sort jobs in decreasing order of profit
 bool compare(Job a, Job b)
 {
     return a.profit > b.profit;
@@ -27,6 +29,8 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
+        cout << "Enter job " << i + 1 << ": ";
+
         cin >> jobs[i].id
             >> jobs[i].deadline
             >> jobs[i].profit;
@@ -45,20 +49,20 @@ int main()
     }
 
     // Create time slots
-    char slot[maxDeadline + 1];
+    string slot[maxDeadline + 1];
 
     for (int i = 0; i <= maxDeadline; i++)
-        slot[i] = '-';
+        slot[i] = "-";
 
     int totalProfit = 0;
 
     // Schedule jobs
     for (int i = 0; i < n; i++)
     {
-        // Try to place job in the latest possible slot
+        // Find the latest available slot
         for (int j = jobs[i].deadline; j >= 1; j--)
         {
-            if (slot[j] == '-')
+            if (slot[j] == "-")
             {
                 slot[j] = jobs[i].id;
                 totalProfit += jobs[i].profit;
@@ -67,11 +71,12 @@ int main()
         }
     }
 
+    // Display job sequence
     cout << "\nJob Sequence: ";
 
     for (int i = 1; i <= maxDeadline; i++)
     {
-        if (slot[i] != '-')
+        if (slot[i] != "-")
             cout << slot[i] << " ";
     }
 
