@@ -1,26 +1,35 @@
-def fibonacci_recursive(n):
+def fibonacci_recursive(n, count):
+    count[0] += 1
+
     if n <= 1:
         return n
-    else:
-        return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)
+
+    return fibonacci_recursive(n - 1, count) + fibonacci_recursive(n - 2, count)
 
 
-def fibonacci_non_recursive(n):
-    a = 0
-    b = 1
+def fibonacci_iterative(n):
+    a, b = 0, 1
+    steps = 0
 
     for i in range(n):
         print(a, end=" ")
-        c = a + b
-        a = b
-        b = c
+        a, b = b, a + b
+        steps += 1
+
+    return steps
 
 
-n = int(input("Enter the number of terms: "))
+n = int(input("Enter number of terms: "))
 
-print("\nFibonacci Series using Non-Recursive Method:")
-fibonacci_non_recursive(n)
+count = [0]
 
-print("\nFibonacci Series using Recursive Method:")
+print("\nRecursive Fibonacci:")
 for i in range(n):
-    print(fibonacci_recursive(i), end=" ")
+    print(fibonacci_recursive(i, count), end=" ")
+
+print("\nRecursive step count:", count[0])
+
+print("\n\nIterative Fibonacci:")
+steps = fibonacci_iterative(n)
+
+print("\nIterative step count:", steps)
